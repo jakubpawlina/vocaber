@@ -13,7 +13,7 @@ void LearnFrame::CreateControls() {
     auto* staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
     sizer->Add(staticText, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    auto* staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("image.jpg", wxBITMAP_TYPE_JPEG));
+    auto* staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/image.jpg", wxBITMAP_TYPE_JPEG));
     wxSize imageSize(500, 300);
     staticBitmap->SetMaxSize(imageSize);
     sizer->Add(staticBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);

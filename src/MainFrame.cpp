@@ -11,16 +11,12 @@ void MainFrame::CreateControls() {
     this->panel->SetFont(mainFont);
     this->panel->SetSizer(new wxBoxSizer(wxVERTICAL));
 
-    wxString labelText = "VOCABER";
-    wxClientDC dc(this->panel);
-    dc.SetFont(headlineFont);
-    wxSize labelSize = dc.GetTextExtent(labelText);
-    this->headlineText = new wxStaticText(
-            this->panel, wxID_ANY, labelText, wxPoint(0, 40),
-            wxSize(800, labelSize.GetHeight()), wxALIGN_CENTER_HORIZONTAL
+    auto* staticBitmap = new wxStaticBitmap(
+            this->panel, wxID_ANY, wxBitmap("../assets/vocaber_logo.png", wxBITMAP_TYPE_PNG)
             );
-    this->headlineText->SetFont(headlineFont);
-    this->panel->GetSizer()->Add(this->headlineText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
+    wxSize imageSize(323, 100);
+    staticBitmap->SetMaxSize(imageSize);
+    this->panel->GetSizer()->Add(staticBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
 
     this->filePicker = new wxFilePickerCtrl(
             this->panel, wxID_ANY, "",
@@ -38,7 +34,7 @@ void MainFrame::CreateControls() {
 }
 
 void MainFrame::OnStartButtonClicked(wxCommandEvent &evt) {
-    auto* learnFrame = new LearnFrame("VOCABER | LEARN", currentDataFilePath);
+    auto* learnFrame = new LearnFrame("Vocaber | LEARNING", currentDataFilePath);
     learnFrame->SetClientSize(800, 600);
     learnFrame->Center();
     learnFrame->Show();
