@@ -3,7 +3,6 @@ project(vocaber)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Find wxWidgets package
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 
 # Include wxWidgets headers
@@ -11,6 +10,7 @@ include(${wxWidgets_USE_FILE})
 
 # Set source files for project
 set(SOURCES
+        include/nlohmann/json.hpp
         src/MainFrame.cpp src/MainFrame.h
         src/App.cpp src/App.h
         )
