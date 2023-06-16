@@ -50,22 +50,18 @@ void MainFrame::OnStartButtonClicked(wxCommandEvent &evt) {
         }
         file.close();
 
-        try {
-            nlohmann::json input_json = nlohmann::json::parse(input);
+        nlohmann::json input_json = nlohmann::json::parse(input);
+        if (vocaber_utilities::validate_json_input(input_json)) {
             std::string name = input_json.at("name");
             auto* learnFrame = new LearnFrame("Vocaber | Learning: " + name, currentDataFilePath);
             learnFrame->SetClientSize(800, 600);
             learnFrame->Center();
             learnFrame->Show();
-        } catch (const std::out_of_range& e) {
-            std::cout << "Error: " << e.what() << std::endl;
-        } catch (const std::domain_error& e) {
-            std::cout << "Error: " << e.what() << std::endl;
-        } catch (const std::exception& e) {
-            std::cout << "Error: " << e.what() << std::endl;
+        } else {
+            wxMessageBox(wxT("Selected file is invalid!"), wxT(""), wxICON_ERROR | wxOK);
         }
     } else {
-        std::cout << "Unable to open the file." << std::endl;
+        wxMessageBox(wxT("Unable to open the file!"), wxT(""), wxICON_ERROR | wxOK);
     }
 }
 

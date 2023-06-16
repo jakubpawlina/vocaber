@@ -1,6 +1,8 @@
 #pragma once
 #include <wx/wx.h>
 
+#include "utilities/validate_json_input.h"
+
 class LearnFrame : public wxFrame {
 public:
     explicit LearnFrame(const wxString& title, const wxString& dataFilePath);
