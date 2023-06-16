@@ -4,7 +4,7 @@
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
-    MainFrame* mainFrame = new MainFrame("VOCABER");
+    auto* mainFrame = new MainFrame("VOCABER");
     mainFrame->SetClientSize(800, 600);
     mainFrame->Center();
     mainFrame->Show();

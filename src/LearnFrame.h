@@ -5,8 +5,8 @@ class LearnFrame : public wxFrame {
 public:
     explicit LearnFrame(const wxString& title, const wxString& dataFilePath);
 private:
-    wxPanel* panel{};
-    wxStaticText* headlineText{};
+    wxPanel* panel = new wxPanel(this);
+    wxStaticText* headlineText = new wxStaticText();
 
     wxString dataFilePath{};
 

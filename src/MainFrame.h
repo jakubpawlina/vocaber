@@ -8,10 +8,10 @@ class MainFrame : public wxFrame {
 public:
     explicit MainFrame(const wxString& title);
 private:
-    wxPanel* panel{};
-    wxStaticText* headlineText{};
-    wxFilePickerCtrl* filePicker{};
-    wxButton* startButton{};
+    wxPanel* panel = new wxPanel(this);
+    wxStaticText* headlineText = new wxStaticText();
+    wxFilePickerCtrl* filePicker = new wxFilePickerCtrl();
+    wxButton* startButton = new wxButton();
 
     wxString currentDataFilePath{};
 
