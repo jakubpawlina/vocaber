@@ -17,4 +17,14 @@ void MainFrame::CreateControls() {
     wxSize labelSize = dc.GetTextExtent(labelText);
     headlineText = new wxStaticText(panel, wxID_ANY, labelText, wxPoint(0, 40), wxSize(800, labelSize.GetHeight()), wxALIGN_CENTER_HORIZONTAL);
     headlineText->SetFont(headlineFont);
+
+    button = new wxButton(panel, wxID_ANY, "Start test", wxPoint(350, 100), wxSize(100, 35));
+    button->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
+}
+
+void MainFrame::OnButtonClicked(wxCommandEvent &evt) {
+    LearnFrame* learnFrame = new LearnFrame("VOCABER - LEARN");
+    learnFrame->SetClientSize(800, 600);
+    learnFrame->Center();
+    learnFrame->Show();
 }

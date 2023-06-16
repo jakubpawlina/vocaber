@@ -11,9 +11,9 @@ include(${wxWidgets_USE_FILE})
 # Set source files for project
 set(SOURCES
         include/nlohmann/json.hpp
-        src/MainFrame.cpp src/MainFrame.h
         src/App.cpp src/App.h
-        )
+        src/MainFrame.cpp src/MainFrame.h
+        src/LearnFrame.cpp src/LearnFrame.h)
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
