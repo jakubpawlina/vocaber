@@ -18,13 +18,21 @@ void MainFrame::CreateControls() {
     headlineText = new wxStaticText(panel, wxID_ANY, labelText, wxPoint(0, 40), wxSize(800, labelSize.GetHeight()), wxALIGN_CENTER_HORIZONTAL);
     headlineText->SetFont(headlineFont);
 
-    button = new wxButton(panel, wxID_ANY, "Start test", wxPoint(350, 100), wxSize(100, 35));
-    button->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
+    filePicker = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select file with learning data (Vocaber JSON)", "JSON files (*.json)|*.json|All files (*.*)|*.*", wxPoint(100, 100), wxSize(495, 35));
+    filePicker->Bind(wxEVT_FILEPICKER_CHANGED, &MainFrame::OnFileSelected, this);
+
+
+    startButton = new wxButton(panel, wxID_ANY, "Start test", wxPoint(600, 100), wxSize(100, 35));
+    startButton->Bind(wxEVT_BUTTON, &MainFrame::OnStartButtonClicked, this);
 }
 
-void MainFrame::OnButtonClicked(wxCommandEvent &evt) {
-    LearnFrame* learnFrame = new LearnFrame("VOCABER - LEARN");
+void MainFrame::OnStartButtonClicked(wxCommandEvent &evt) {
+    LearnFrame* learnFrame = new LearnFrame("VOCABER - LEARN", currentDataFilePath);
     learnFrame->SetClientSize(800, 600);
     learnFrame->Center();
     learnFrame->Show();
+}
+
+void MainFrame::OnFileSelected(wxFileDirPickerEvent& evt) {
+    this->currentDataFilePath = evt.GetPath();
 }

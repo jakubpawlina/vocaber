@@ -1,5 +1,7 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/filepicker.h>
+
 #include "LearnFrame.h"
 
 class MainFrame : public wxFrame {
@@ -8,9 +10,13 @@ public:
 private:
     wxPanel* panel{};
     wxStaticText* headlineText{};
-    wxButton* button{};
+    wxFilePickerCtrl* filePicker{};
+    wxButton* startButton{};
+
+    wxString currentDataFilePath{};
 
     void CreateControls();
 
-    void OnButtonClicked(wxCommandEvent &evt);
+    void OnStartButtonClicked(wxCommandEvent &evt);
+    void OnFileSelected(wxFileDirPickerEvent& evt);
 };

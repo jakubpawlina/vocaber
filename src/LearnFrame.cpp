@@ -1,6 +1,6 @@
 #include "LearnFrame.h"
 
-LearnFrame::LearnFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
+LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath) : wxFrame(nullptr, wxID_ANY, title), dataFilePath(dataFilePath) {
     CreateControls();
 }
 
@@ -11,7 +11,7 @@ void LearnFrame::CreateControls() {
     panel = new wxPanel(this);
     panel->SetFont(mainFont);
 
-    wxString labelText = "VOCABER - LEARNING";
+    wxString labelText = "Path: " + dataFilePath;
     wxClientDC dc(panel);
     dc.SetFont(headlineFont);
     wxSize labelSize = dc.GetTextExtent(labelText);
