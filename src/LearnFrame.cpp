@@ -7,10 +7,9 @@ LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath) : wx
 void LearnFrame::CreateControls() {
     wxFont questionFont(wxFontInfo(wxSize(0, 20)).Bold());
 
-    auto* sizer = new wxBoxSizer(wxVERTICAL);
     sizer->AddStretchSpacer();
 
-    auto* staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
+    staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
     sizer->Add(staticText, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
     auto* staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/image.jpg", wxBITMAP_TYPE_JPEG));
@@ -38,6 +37,8 @@ void LearnFrame::CreateControls() {
 
 void LearnFrame::CheckUserAnswer() {
     wxMessageBox(wxT("Answer is correct (or not)!"));
+    staticText->SetLabel("An answer has been provided.");
+    sizer->Layout();
 }
 
 void LearnFrame::OnInputEnter(wxCommandEvent &evt) {

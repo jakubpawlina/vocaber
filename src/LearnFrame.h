@@ -6,7 +6,8 @@ public:
     explicit LearnFrame(const wxString& title, const wxString& dataFilePath);
 private:
     wxPanel* panel = new wxPanel(this);
-    wxStaticText* headlineText = new wxStaticText();
+    wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
+    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
     wxString dataFilePath{};
 
