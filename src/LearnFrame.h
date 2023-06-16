@@ -11,4 +11,9 @@ private:
     wxString dataFilePath{};
 
     void CreateControls();
+
+    void OnInputEnter(wxCommandEvent &evt);
+    void OnButtonClicked(wxCommandEvent &evt);
+
+    void CheckUserAnswer();
 };
