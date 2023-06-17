@@ -14,7 +14,9 @@ set(SOURCES
         src/App.cpp src/App.h
         src/MainFrame.cpp src/MainFrame.h
         src/LearnFrame.cpp src/LearnFrame.h
-        src/utilities/validate_json_input.cpp src/utilities/validate_json_input.h)
+        src/utilities/validate_json_input.cpp src/utilities/validate_json_input.h
+        src/utilities/get_json_from_file.cpp src/utilities/get_json_from_file.h
+        )
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})

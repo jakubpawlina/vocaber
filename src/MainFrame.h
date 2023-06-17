@@ -6,20 +6,26 @@
 
 #include "../include/nlohmann/json.hpp"
 
+#include "utilities/get_json_from_file.h"
+
 #include "LearnFrame.h"
+
 
 class MainFrame : public wxFrame {
 public:
     explicit MainFrame(const wxString& title);
+
 private:
     wxPanel* panel = new wxPanel(this);
-    wxFilePickerCtrl* filePicker = new wxFilePickerCtrl();
+    wxFilePickerCtrl* dataFilePicker = new wxFilePickerCtrl();
     wxButton* startButton = new wxButton();
     wxButton* aboutButton = new wxButton();
+    wxStaticBitmap* logoImageBitmap = new wxStaticBitmap();
 
     wxString currentDataFilePath{};
 
     void CreateControls();
+    void BindEventHandlers();
 
     void OnStartButtonClicked(wxCommandEvent &evt);
     void OnAboutButtonClicked(wxCommandEvent &evt);

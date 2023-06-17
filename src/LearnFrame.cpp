@@ -1,39 +1,41 @@
 #include "LearnFrame.h"
 
-LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath) : wxFrame(nullptr, wxID_ANY, title), dataFilePath(dataFilePath) {
+
+LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath) :
+        wxFrame(nullptr, wxID_ANY, title), dataFilePath(dataFilePath) {
     CreateControls();
+    BindEventHandlers();
 }
+
 
 void LearnFrame::CreateControls() {
     wxFont questionFont(wxFontInfo(wxSize(0, 20)).Bold());
 
-    sizer->AddStretchSpacer();
+    this->sizer->AddStretchSpacer();
 
-    staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
-    sizer->Add(staticText, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
+    this->staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
+    this->sizer->Add(this->staticText, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    auto* staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/image.jpg", wxBITMAP_TYPE_JPEG));
-    wxSize imageSize(500, 300);
-    staticBitmap->SetMaxSize(imageSize);
-    sizer->Add(staticBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
+    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/image.jpg", wxBITMAP_TYPE_JPEG));
+    this->questionImageBitmap->SetMaxSize(wxSize(500, 300));
+    this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
 
-    auto* questionText = new wxStaticText(this, wxID_ANY, "example question");
-    questionText->SetFont(questionFont);
-    sizer->Add(questionText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 30);
+    this->questionText = new wxStaticText(this, wxID_ANY, "example question");
+    this->questionText->SetFont(questionFont);
+    this->sizer->Add(this->questionText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 30);
 
-    auto* textCtrl = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(500, 35), wxTE_CENTER | wxTE_PROCESS_ENTER);
-    textCtrl->SetFocus();
-    sizer->Add(textCtrl, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 10);
-    textCtrl->Bind(wxEVT_TEXT_ENTER, &LearnFrame::OnInputEnter, this);
+    this->userAnswerInput = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(500, 35), wxTE_CENTER | wxTE_PROCESS_ENTER);
+    this->userAnswerInput->SetFocus();
+    this->sizer->Add(this->userAnswerInput, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 10);
 
-    auto* checkButton = new wxButton(this, wxID_ANY, "Check answer!", wxDefaultPosition, wxSize(120, 35));
-    sizer->Add(checkButton, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP, 20);
-    checkButton->Bind(wxEVT_BUTTON, &LearnFrame::OnButtonClicked, this);
+    this->checkAnswerButton = new wxButton(this, wxID_ANY, "Check answer!", wxDefaultPosition, wxSize(120, 35));
+    this->sizer->Add(this->checkAnswerButton, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP, 20);
 
-    sizer->AddStretchSpacer();
+    this->sizer->AddStretchSpacer();
 
-    SetSizer(sizer);
+    SetSizer(this->sizer);
 }
+
 
 void LearnFrame::CheckUserAnswer() {
     wxMessageBox(wxT("Answer is correct (or not)!"));
@@ -41,10 +43,18 @@ void LearnFrame::CheckUserAnswer() {
     sizer->Layout();
 }
 
-void LearnFrame::OnInputEnter(wxCommandEvent &evt) {
+
+void LearnFrame::OnInputEnter([[maybe_unused]] wxCommandEvent &evt) {
     LearnFrame::CheckUserAnswer();
 }
 
-void LearnFrame::OnButtonClicked(wxCommandEvent &evt) {
+
+void LearnFrame::OnButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
     LearnFrame::CheckUserAnswer();
+}
+
+
+void LearnFrame::BindEventHandlers() {
+    this->userAnswerInput->Bind(wxEVT_TEXT_ENTER, &LearnFrame::OnInputEnter, this);
+    this->checkAnswerButton->Bind(wxEVT_BUTTON, &LearnFrame::OnButtonClicked, this);
 }
