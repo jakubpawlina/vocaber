@@ -11,27 +11,29 @@ void MainFrame::CreateControls() {
     wxFont headlineFont(wxFontInfo(wxSize(0, 24)).Bold());
     wxFont mainFont(wxFontInfo(wxSize(0, 16)));
 
-    this->panel->SetFont(mainFont);
-    this->panel->SetSizer(new wxBoxSizer(wxVERTICAL));
+    this->SetFont(mainFont);
+    this->sizer->AddStretchSpacer();
 
-    this->logoImageBitmap = new wxStaticBitmap(this->panel, wxID_ANY, wxBitmap("../assets/vocaber_logo.png", wxBITMAP_TYPE_PNG));
+    this->logoImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/vocaber_logo.png", wxBITMAP_TYPE_PNG));
     this->logoImageBitmap->SetMaxSize(wxSize(300, 100));
-    this->panel->GetSizer()->Add(this->logoImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
+    this->sizer->Add(this->logoImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
 
     this->dataFilePicker = new wxFilePickerCtrl(
-            this->panel, wxID_ANY, "", "Select file with learning data (Vocaber JSON)",
+            this, wxID_ANY, "", "Select file with learning data (Vocaber JSON)",
             "JSON files (*.json)|*.json|All files (*.*)|*.*", wxDefaultPosition, wxSize(300, 35));
-    this->panel->GetSizer()->Add(this->dataFilePicker, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
+    this->sizer->Add(this->dataFilePicker, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    this->startButton = new wxButton(this->panel, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 35));
+    this->startButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 35));
     this->startButton->SetBackgroundColour(wxColour(180, 30, 50, 255));
     this->startButton->SetFont(wxFontInfo(wxSize(0, 16)).Bold());
-    this->panel->GetSizer()->Add(this->startButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
+    this->sizer->Add(this->startButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    this->aboutButton = new wxButton(this->panel, wxID_ANY, "About", wxDefaultPosition, wxSize(100, 35));
-    this->panel->GetSizer()->Add(this->aboutButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
+    this->aboutButton = new wxButton(this, wxID_ANY, "About", wxDefaultPosition, wxSize(100, 35));
+    this->sizer->Add(this->aboutButton, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP, 30);
 
-    this->panel->GetSizer()->Fit(this->panel);
+    this->sizer->AddStretchSpacer();
+
+    SetSizer(this->sizer);
 }
 
 

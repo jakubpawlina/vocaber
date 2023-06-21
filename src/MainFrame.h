@@ -16,7 +16,7 @@ public:
     explicit MainFrame(const wxString& title);
 
 private:
-    wxPanel* panel = new wxPanel(this);
+    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     wxFilePickerCtrl* dataFilePicker = new wxFilePickerCtrl();
     wxButton* startButton = new wxButton();
     wxButton* aboutButton = new wxButton();
