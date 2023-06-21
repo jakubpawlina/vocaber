@@ -12,6 +12,7 @@ private:
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     wxTextCtrl* userAnswerInput = new wxTextCtrl();
     wxButton* checkAnswerButton = new wxButton();
+    wxButton* nextQuestionButton = new wxButton();
     wxStaticBitmap* questionImageBitmap = new wxStaticBitmap();
     wxStaticText* questionText = new wxStaticText();
 
@@ -21,7 +22,8 @@ private:
     void BindEventHandlers();
 
     void OnInputEnter(wxCommandEvent &evt);
-    void OnButtonClicked(wxCommandEvent &evt);
+    void OnCheckAnswerButtonClicked(wxCommandEvent &evt);
+    void OnNextQuestionButtonClicked(wxCommandEvent &evt);
 
     void CheckUserAnswer();
 };

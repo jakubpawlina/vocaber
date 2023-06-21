@@ -38,6 +38,10 @@ void LearnFrame::CreateControls() {
     this->checkAnswerButton = new wxButton(this, wxID_ANY, "Check answer!", wxDefaultPosition, wxSize(120, 35));
     this->sizer->Add(this->checkAnswerButton, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP, 20);
 
+    this->nextQuestionButton = new wxButton(this, wxID_ANY, "Next question", wxDefaultPosition, wxSize(120, 35));
+    this->sizer->Add(this->nextQuestionButton, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP, 20);
+    this->nextQuestionButton->Hide();
+
     this->sizer->AddStretchSpacer();
 
     SetSizer(this->sizer);
@@ -45,9 +49,14 @@ void LearnFrame::CreateControls() {
 
 
 void LearnFrame::CheckUserAnswer() {
-    wxMessageBox(wxT("Answer is correct (or not)!"));
-    staticText->SetLabel("An answer has been provided.");
-    sizer->Layout();
+    this->staticText->SetLabel("An answer is correct (or not).");
+    this->staticText->SetForegroundColour(wxColour(255, 200, 50, 255));
+    this->staticText->SetFont(wxFontInfo().Bold());
+    this->checkAnswerButton->Hide();
+    this->nextQuestionButton->Show();
+    this->nextQuestionButton->SetFocus();
+    this->userAnswerInput->Enable(false);
+    this->sizer->Layout();
 }
 
 
@@ -56,12 +65,17 @@ void LearnFrame::OnInputEnter([[maybe_unused]] wxCommandEvent &evt) {
 }
 
 
-void LearnFrame::OnButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
+void LearnFrame::OnCheckAnswerButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
     LearnFrame::CheckUserAnswer();
+}
+
+void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
+    wxMessageBox(wxT("Not implemented yet!"));
 }
 
 
 void LearnFrame::BindEventHandlers() {
     this->userAnswerInput->Bind(wxEVT_TEXT_ENTER, &LearnFrame::OnInputEnter, this);
-    this->checkAnswerButton->Bind(wxEVT_BUTTON, &LearnFrame::OnButtonClicked, this);
+    this->checkAnswerButton->Bind(wxEVT_BUTTON, &LearnFrame::OnCheckAnswerButtonClicked, this);
+    this->nextQuestionButton->Bind(wxEVT_BUTTON, &LearnFrame::OnNextQuestionButtonClicked, this);
 }
