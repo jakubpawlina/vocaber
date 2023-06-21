@@ -16,8 +16,15 @@ void LearnFrame::CreateControls() {
     this->staticText = new wxStaticText(this, wxID_ANY, "Using data from file: " + this->dataFilePath);
     this->sizer->Add(this->staticText, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/image.jpg", wxBITMAP_TYPE_JPEG));
-    this->questionImageBitmap->SetMaxSize(wxSize(500, 300));
+    wxBitmap originalBitmap = wxBitmap("../assets/460-2000x1000.jpg");
+    wxSize maxSize(500, 300);
+    double scaleWidth = static_cast<double>(maxSize.GetWidth()) / originalBitmap.GetWidth();
+    double scaleHeight = static_cast<double>(maxSize.GetHeight()) / originalBitmap.GetHeight();
+    double scaleFactor = std::min(scaleWidth, scaleHeight);
+    int scaledWidth = static_cast<int>(originalBitmap.GetWidth() * scaleFactor);
+    int scaledHeight = static_cast<int>(originalBitmap.GetHeight() * scaleFactor);
+    wxImage scaledImage = originalBitmap.ConvertToImage().Rescale(scaledWidth, scaledHeight, wxIMAGE_QUALITY_HIGH);
+    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(scaledImage));
     this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
 
     this->questionText = new wxStaticText(this, wxID_ANY, "example question");
