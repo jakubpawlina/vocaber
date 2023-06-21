@@ -2,7 +2,8 @@
 
 
 LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath, nlohmann::json &json) :
-        wxFrame(nullptr, wxID_ANY, title), dataFilePath(dataFilePath) {
+        wxFrame(nullptr, wxID_ANY, "Vocaber | Learning: " + title), dataFilePath(dataFilePath) {
+    this->setTitle = title.ToStdString();
     this->questions = loadFromJSON(json);
     CreateControls();
     BindEventHandlers();
@@ -79,6 +80,11 @@ void LearnFrame::OnCheckAnswerButtonClicked([[maybe_unused]] wxCommandEvent &evt
 
 void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
     wxMessageBox(wxT("Not implemented yet!"));
+    auto* finishFrame = new FinishFrame(this->setTitle);
+    finishFrame->SetClientSize(800, 600);
+    finishFrame->Center();
+    finishFrame->Show();
+    Close();
 }
 
 

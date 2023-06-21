@@ -1,6 +1,8 @@
 #pragma once
 #include <wx/wx.h>
 
+#include "FinishFrame.h"
+
 #include "utilities/validate_json_input.h"
 #include "classes/Question.h"
 #include "utilities/load_questions_from_json.h"
@@ -10,6 +12,8 @@ public:
     explicit LearnFrame(const wxString& title, const wxString& dataFilePath, nlohmann::json &json);
 
 private:
+    std::string setTitle{};
+
     wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     wxTextCtrl* userAnswerInput = new wxTextCtrl();
