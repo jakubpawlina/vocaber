@@ -6,6 +6,7 @@
 #include "utilities/validate_json_input.h"
 #include "classes/Question.h"
 #include "utilities/load_questions_from_json.h"
+#include "utilities/scale_wx_bitmap.h"
 
 class LearnFrame : public wxFrame {
 public:

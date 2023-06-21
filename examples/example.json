@@ -1,20 +1,5 @@
 {
-  "name": "My little CS dictionary",
+  "name": "My learning set",
   "entries": [
-    {
-      "term": "computer",
-      "definition": "komputer",
-      "image": ""
-    },
-    {
-      "term": "programming language",
-      "definition": "jezyk programowania",
-      "image": ""
-    },
-    {
-      "term": "keyboard",
-      "definition": "klawiatura",
-      "image": ""
-    }
   ]
 }

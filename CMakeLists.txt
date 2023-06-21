@@ -19,7 +19,7 @@ set(SOURCES
         src/utilities/validate_json_input.cpp src/utilities/validate_json_input.h
         src/utilities/get_json_from_file.cpp src/utilities/get_json_from_file.h
         src/utilities/load_questions_from_json.cpp src/utilities/load_questions_from_json.h
-        )
+        src/utilities/scale_wx_bitmap.cpp src/utilities/scale_wx_bitmap.h)
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})

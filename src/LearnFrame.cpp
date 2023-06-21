@@ -15,15 +15,9 @@ void LearnFrame::CreateControls() {
 
     this->sizer->AddStretchSpacer();
 
-    wxBitmap originalBitmap = wxBitmap("../assets/460-2000x1000.jpg");
-    wxSize maxSize(500, 300);
-    double scaleWidth = static_cast<double>(maxSize.GetWidth()) / originalBitmap.GetWidth();
-    double scaleHeight = static_cast<double>(maxSize.GetHeight()) / originalBitmap.GetHeight();
-    double scaleFactor = std::min(scaleWidth, scaleHeight);
-    int scaledWidth = static_cast<int>(originalBitmap.GetWidth() * scaleFactor);
-    int scaledHeight = static_cast<int>(originalBitmap.GetHeight() * scaleFactor);
-    wxImage scaledImage = originalBitmap.ConvertToImage().Rescale(scaledWidth, scaledHeight, wxIMAGE_QUALITY_HIGH);
-    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(scaledImage));
+    wxBitmap originalBitmap = (this->questions[currentQuestionIndex].getImagePath().empty()) ?
+            wxBitmap("../assets/question-mark.jpg") : wxBitmap(this->questions[currentQuestionIndex].getImagePath());
+    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, scaleWxBitmap(originalBitmap, wxSize(500, 300)));
     this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
 
     this->questionText = new wxStaticText(this, wxID_ANY, this->questions[currentQuestionIndex].getTerm());
@@ -86,16 +80,20 @@ void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &ev
         finishFrame->Center();
         finishFrame->Show();
         Close();
+    } else {
+        this->staticText->SetLabel("");
+        this->staticText->Hide();
+        this->nextQuestionButton->Hide();
+        this->checkAnswerButton->Show();
+        this->userAnswerInput->Clear();
+        this->userAnswerInput->Enable(true);
+        this->userAnswerInput->SetFocus();
+        this->questionText->SetLabel(this->questions[currentQuestionIndex].getTerm());
+        wxBitmap originalBitmap = (this->questions[currentQuestionIndex].getImagePath().empty()) ?
+                wxBitmap("../assets/question-mark.jpg") : wxBitmap(this->questions[currentQuestionIndex].getImagePath());
+        this->questionImageBitmap->SetBitmap(scaleWxBitmap(originalBitmap, wxSize(500, 300)));
+        this->sizer->Layout();
     }
-    this->staticText->SetLabel("");
-    this->staticText->Hide();
-    this->nextQuestionButton->Hide();
-    this->checkAnswerButton->Show();
-    this->userAnswerInput->Clear();
-    this->userAnswerInput->Enable(true);
-    this->userAnswerInput->SetFocus();
-    this->questionText->SetLabel(this->questions[currentQuestionIndex].getTerm());
-    this->sizer->Layout();
 }
 
 

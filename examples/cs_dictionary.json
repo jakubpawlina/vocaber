@@ -1,0 +1,20 @@
+{
+  "name": "My little CS dictionary",
+  "entries": [
+    {
+      "term": "procesor",
+      "definition": "processor",
+      "image": "../examples/images/processor.jpg"
+    },
+    {
+      "term": "jezyk programowania",
+      "definition": "programming language",
+      "image": ""
+    },
+    {
+      "term": "domena",
+      "definition": "domain",
+      "image": "../examples/images/domain.png"
+    }
+  ]
+}
