@@ -28,6 +28,8 @@ private:
     std::vector <Question> questions;
     size_t currentQuestionIndex = 0;
 
+    unsigned int acquiredResult = 0;
+
     void CreateControls();
     void BindEventHandlers();
 

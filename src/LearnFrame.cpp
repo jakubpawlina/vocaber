@@ -50,6 +50,7 @@ void LearnFrame::CheckUserAnswer() {
     if (this->userAnswerInput->GetValue().ToStdString() == questions[currentQuestionIndex].getDefinition()) {
         this->staticText->SetLabel("This is the correct answer! Good job!");
         this->staticText->SetForegroundColour(wxColour(100, 200, 0, 255));
+        ++(this->acquiredResult);
     } else {
         this->staticText->SetLabel("Incorrect! Should be: " + questions[currentQuestionIndex].getDefinition() + ".");
         this->staticText->SetForegroundColour(wxColour(220, 0, 40, 255));
@@ -75,7 +76,7 @@ void LearnFrame::OnCheckAnswerButtonClicked([[maybe_unused]] wxCommandEvent &evt
 void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
     ++(this->currentQuestionIndex);
     if (this->currentQuestionIndex == this->questions.size()) {
-        auto* finishFrame = new FinishFrame(this->setTitle);
+        auto* finishFrame = new FinishFrame(this->setTitle, this->acquiredResult, this->questions.size());
         finishFrame->SetClientSize(800, 600);
         finishFrame->Center();
         finishFrame->Show();
