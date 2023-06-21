@@ -2,10 +2,12 @@
 #include <wx/wx.h>
 
 #include "utilities/validate_json_input.h"
+#include "classes/Question.h"
+#include "utilities/load_questions_from_json.h"
 
 class LearnFrame : public wxFrame {
 public:
-    explicit LearnFrame(const wxString& title, const wxString& dataFilePath);
+    explicit LearnFrame(const wxString& title, const wxString& dataFilePath, nlohmann::json &json);
 
 private:
     wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
@@ -17,6 +19,9 @@ private:
     wxStaticText* questionText = new wxStaticText();
 
     wxString dataFilePath{};
+
+    std::vector <Question> questions;
+    size_t currentQuestionIndex = 0;
 
     void CreateControls();
     void BindEventHandlers();

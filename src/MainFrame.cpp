@@ -42,7 +42,7 @@ void MainFrame::OnStartButtonClicked(wxCommandEvent &evt) {
     if (!input_json.empty()) {
         if (vocaber_utilities::validate_json_input(input_json)) {
             std::string name = input_json.at("name");
-            auto* learnFrame = new LearnFrame("Vocaber | Learning: " + name, currentDataFilePath);
+            auto* learnFrame = new LearnFrame("Vocaber | Learning: " + name, currentDataFilePath, input_json);
             learnFrame->SetClientSize(800, 600);
             learnFrame->Center();
             learnFrame->Show();
