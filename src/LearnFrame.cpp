@@ -79,12 +79,23 @@ void LearnFrame::OnCheckAnswerButtonClicked([[maybe_unused]] wxCommandEvent &evt
 }
 
 void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
-    wxMessageBox(wxT("Not implemented yet!"));
-    auto* finishFrame = new FinishFrame(this->setTitle);
-    finishFrame->SetClientSize(800, 600);
-    finishFrame->Center();
-    finishFrame->Show();
-    Close();
+    ++(this->currentQuestionIndex);
+    if (this->currentQuestionIndex == this->questions.size()) {
+        auto* finishFrame = new FinishFrame(this->setTitle);
+        finishFrame->SetClientSize(800, 600);
+        finishFrame->Center();
+        finishFrame->Show();
+        Close();
+    }
+    this->staticText->SetLabel("");
+    this->staticText->Hide();
+    this->nextQuestionButton->Hide();
+    this->checkAnswerButton->Show();
+    this->userAnswerInput->Clear();
+    this->userAnswerInput->Enable(true);
+    this->userAnswerInput->SetFocus();
+    this->questionText->SetLabel(this->questions[currentQuestionIndex].getTerm());
+    this->sizer->Layout();
 }
 
 
