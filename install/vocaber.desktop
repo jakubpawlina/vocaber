@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Vocaber
+Exec=/usr/local/bin/vocaber
+Terminal=false
+Type=Application
+Icon=/usr/local/share/vocaber/config/icon.svg
+Comment=Vocaber for Linux
+Categories=Education;GTK;GNOME;

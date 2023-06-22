@@ -1,13 +1,10 @@
 #pragma once
 #include <fstream>
-
 #include <wx/wx.h>
 #include <wx/filepicker.h>
-
 #include "../include/nlohmann/json.hpp"
-
 #include "utilities/get_json_from_file.h"
-
+#include "defines/config_path.h"
 #include "LearnFrame.h"
 
 

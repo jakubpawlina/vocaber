@@ -14,7 +14,7 @@ void MainFrame::CreateControls() {
     this->SetFont(mainFont);
     this->sizer->AddStretchSpacer();
 
-    this->logoImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap("../assets/vocaber_logo.png", wxBITMAP_TYPE_PNG));
+    this->logoImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(CONFIG_PATH "/vocaber_logo.png", wxBITMAP_TYPE_PNG));
     this->logoImageBitmap->SetMaxSize(wxSize(300, 100));
     this->sizer->Add(this->logoImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
 

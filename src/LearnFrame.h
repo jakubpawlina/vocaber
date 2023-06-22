@@ -1,9 +1,8 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/filename.h>
-
 #include "FinishFrame.h"
-
+#include "defines/config_path.h"
 #include "utilities/validate_json_input.h"
 #include "classes/Question.h"
 #include "utilities/load_questions_from_json.h"
@@ -16,7 +15,7 @@ public:
 private:
     std::string setTitle{};
 
-    const std::string defaultQuestionImagePath = "../assets/question-mark.jpg";
+    const std::string defaultQuestionImagePath = CONFIG_PATH "/question-mark.jpg";
 
     wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
