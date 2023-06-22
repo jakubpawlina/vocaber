@@ -18,6 +18,7 @@ private:
     wxButton* startButton = new wxButton();
     wxButton* aboutButton = new wxButton();
     wxStaticBitmap* logoImageBitmap = new wxStaticBitmap();
+    wxStaticText* logoAltText = new wxStaticText();
 
     wxString currentDataFilePath{};
 

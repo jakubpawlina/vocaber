@@ -8,15 +8,22 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
 
 
 void MainFrame::CreateControls() {
-    wxFont headlineFont(wxFontInfo(wxSize(0, 24)).Bold());
+    wxFont headlineFont(wxFontInfo(wxSize(0, 32)).Bold());
     wxFont mainFont(wxFontInfo(wxSize(0, 16)));
 
     this->SetFont(mainFont);
     this->sizer->AddStretchSpacer();
 
-    this->logoImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(CONFIG_PATH "/vocaber_logo.png", wxBITMAP_TYPE_PNG));
-    this->logoImageBitmap->SetMaxSize(wxSize(300, 100));
-    this->sizer->Add(this->logoImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
+    wxBitmap tmpBitmap = (wxFileExists(CONFIG_PATH "/vocaber_logo.png")) ? wxBitmap(CONFIG_PATH "/vocaber_logo.png", wxBITMAP_TYPE_PNG) : wxBitmap();
+    if (tmpBitmap.IsOk()) {
+        this->logoImageBitmap = new wxStaticBitmap(this, wxID_ANY, tmpBitmap);
+        this->logoImageBitmap->SetMaxSize(wxSize(300, 100));
+        this->sizer->Add(this->logoImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
+    } else {
+        this->logoAltText = new wxStaticText(this, wxID_ANY, "Vocaber");
+        this->logoAltText->SetFont(headlineFont);
+        this->sizer->Add(this->logoAltText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 50);
+    }
 
     this->dataFilePicker = new wxFilePickerCtrl(
             this, wxID_ANY, "", "Select file with learning data (Vocaber JSON)",
