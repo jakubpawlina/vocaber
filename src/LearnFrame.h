@@ -1,5 +1,6 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/filename.h>
 
 #include "FinishFrame.h"
 
@@ -15,12 +16,14 @@ public:
 private:
     std::string setTitle{};
 
+    const std::string defaultQuestionImagePath = "../assets/question-mark.jpg";
+
     wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     wxTextCtrl* userAnswerInput = new wxTextCtrl();
     wxButton* checkAnswerButton = new wxButton();
     wxButton* nextQuestionButton = new wxButton();
-    wxStaticBitmap* questionImageBitmap = new wxStaticBitmap();
+    wxStaticBitmap* questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap());
     wxStaticText* questionText = new wxStaticText();
 
     wxString dataFilePath{};

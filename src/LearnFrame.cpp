@@ -15,10 +15,23 @@ void LearnFrame::CreateControls() {
 
     this->sizer->AddStretchSpacer();
 
-    wxBitmap originalBitmap = (this->questions[currentQuestionIndex].getImagePath().empty()) ?
-            wxBitmap("../assets/question-mark.jpg") : wxBitmap(this->questions[currentQuestionIndex].getImagePath());
-    this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, scaleWxBitmap(originalBitmap, wxSize(500, 300)));
-    this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
+    wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
+    if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
+        wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
+        if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||
+            extension.IsSameAs("jpg", false) || extension.IsSameAs("jpeg", false)) {
+            wxBitmap tmpBitmap;
+            if (tmpBitmap.LoadFile(this->questions[currentQuestionIndex].getImagePath()) && tmpBitmap.IsOk()) {
+                originalBitmap = tmpBitmap;
+            }
+        }
+    }
+    if (originalBitmap.IsOk()) {
+        this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, scaleWxBitmap(originalBitmap, wxSize(500, 300)));
+        this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
+    } else {
+        this->questionImageBitmap->Hide();
+    }
 
     this->questionText = new wxStaticText(this, wxID_ANY, this->questions[currentQuestionIndex].getTerm());
     this->questionText->SetFont(questionFont);
@@ -90,9 +103,23 @@ void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &ev
         this->userAnswerInput->Enable(true);
         this->userAnswerInput->SetFocus();
         this->questionText->SetLabel(this->questions[currentQuestionIndex].getTerm());
-        wxBitmap originalBitmap = (this->questions[currentQuestionIndex].getImagePath().empty()) ?
-                wxBitmap("../assets/question-mark.jpg") : wxBitmap(this->questions[currentQuestionIndex].getImagePath());
-        this->questionImageBitmap->SetBitmap(scaleWxBitmap(originalBitmap, wxSize(500, 300)));
+        wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
+        if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
+            wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
+            if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||
+                extension.IsSameAs("jpg", false) || extension.IsSameAs("jpeg", false)) {
+                wxBitmap tmpBitmap;
+                if (tmpBitmap.LoadFile(this->questions[currentQuestionIndex].getImagePath()) && tmpBitmap.IsOk()) {
+                    originalBitmap = tmpBitmap;
+                }
+            }
+        }
+        if (originalBitmap.IsOk()) {
+            this->questionImageBitmap->SetBitmap(scaleWxBitmap(originalBitmap, wxSize(500, 300)));
+            this->questionImageBitmap->Show();
+        } else {
+            this->questionImageBitmap->Hide();
+        }
         this->sizer->Layout();
     }
 }
