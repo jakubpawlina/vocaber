@@ -2,9 +2,20 @@
 
 
 LearnFrame::LearnFrame(const wxString &title, const wxString &dataFilePath, nlohmann::json &json) :
-        wxFrame(nullptr, wxID_ANY, "Vocaber | Learning: " + title), dataFilePath(dataFilePath) {
-    this->setTitle = title.ToStdString();
-    this->questions = loadFromJSON(json);
+        wxFrame(nullptr, wxID_ANY, "Vocaber | Learning: " + title),
+        dataFilePath(dataFilePath),
+        correctAnswerMessages({
+                        wxString("This is the correct answer! Good job! ") + wxUniChar(0x0001F929),
+                        wxString("You're right! Bravo! ") + wxUniChar(0x0001F44F),
+                        wxString("That's spotless! You've got it perfectly! ") + wxUniChar(0x0001F44C),
+                        wxString("Absolutely right! You're on fire! ") + wxUniChar(0x0001F525),
+                        wxString("You're on the money! That's the correct answer! ") + wxUniChar(0x0001F4B0),
+                        wxString("You hit the bullseye! Well played! ") + wxUniChar(0x0001F3AF),
+                        wxString("You've cracked it! Well done! ") + wxUniChar(0x0001F4AA)}),
+        generator(this->random_device()),
+        correctMessagesDistribution(0, static_cast<int>(this->correctAnswerMessages.size()) - 1),
+        setTitle(title.ToStdString()),
+        questions(loadFromJSON(json)) {
     CreateControls();
     BindEventHandlers();
 }
@@ -27,7 +38,8 @@ void LearnFrame::CreateControls() {
     this->questionText->SetFont(questionFont);
     this->sizer->Add(this->questionText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 30);
 
-    this->userAnswerInput = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(500, 35), wxTE_CENTER | wxTE_PROCESS_ENTER);
+    this->userAnswerInput = new wxTextCtrl(
+            this, wxID_ANY, "", wxDefaultPosition, wxSize(500, 35), wxTE_CENTER | wxTE_PROCESS_ENTER);
     this->userAnswerInput->SetFocus();
     this->sizer->Add(this->userAnswerInput, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 10);
 
@@ -51,11 +63,14 @@ void LearnFrame::CreateControls() {
 
 void LearnFrame::CheckUserAnswer() {
     if (this->userAnswerInput->GetValue().ToStdString() == questions[currentQuestionIndex_].getDefinition()) {
-        this->staticText->SetLabel("This is the correct answer! Good job!");
+        auto it = correctAnswerMessages.begin();
+        std::advance(it, correctMessagesDistribution(generator));
+        this->staticText->SetLabel(*it);
         this->staticText->SetForegroundColour(wxColour(100, 200, 0, 255));
         ++(this->acquiredResult);
     } else {
-        this->staticText->SetLabel("Incorrect! Should be: " + questions[currentQuestionIndex_].getDefinition() + ".");
+        this->staticText->SetLabel(wxString("Oops! That's not the right answer... ") + wxUniChar(0x0001F614)
+            + " The correct one is \"" + questions[currentQuestionIndex_].getDefinition() + "\".");
         this->staticText->SetForegroundColour(wxColour(220, 0, 40, 255));
     }
     this->staticText->Show();
@@ -113,7 +128,7 @@ void LearnFrame::BindEventHandlers() {
 
 
 wxBitmap LearnFrame::getQuestionImage(size_t currentQuestionIndex) {
-    wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
+    wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(this->defaultQuestionImagePath) : wxBitmap();
     if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
         wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
         if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||

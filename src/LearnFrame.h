@@ -1,6 +1,8 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/filename.h>
+#include <set>
+#include <random>
 #include "FinishFrame.h"
 #include "defines/config_path.h"
 #include "utilities/validate_json_input.h"
@@ -14,8 +16,12 @@ public:
 
 private:
     std::string setTitle{};
-
+    wxString dataFilePath{};
+    std::vector <Question> questions{};
+    size_t currentQuestionIndex_ = 0;
+    unsigned int acquiredResult = 0;
     const std::string defaultQuestionImagePath = CONFIG_PATH "/question-mark.jpg";
+    const std::set <wxString> correctAnswerMessages{};
 
     wxStaticText* staticText = new wxStaticText(this, wxID_ANY, "");
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
@@ -25,12 +31,10 @@ private:
     wxStaticBitmap* questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap());
     wxStaticText* questionText = new wxStaticText();
 
-    wxString dataFilePath{};
-
-    std::vector <Question> questions;
-    size_t currentQuestionIndex_ = 0;
-
-    unsigned int acquiredResult = 0;
+    std::random_device random_device;
+    std::mt19937 generator;
+    std::uniform_int_distribution<> correctMessagesDistribution;
+    std::uniform_int_distribution<> incorrectMessagesDistribution;
 
     void CreateControls();
     void BindEventHandlers();

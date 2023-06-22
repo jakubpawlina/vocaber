@@ -30,8 +30,8 @@ void MainFrame::CreateControls() {
             "JSON files (*.json)|*.json|All files (*.*)|*.*", wxDefaultPosition, wxSize(300, 35));
     this->sizer->Add(this->dataFilePicker, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
-    this->startButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 35));
-    this->startButton->SetBackgroundColour(wxColour(180, 30, 50, 255));
+    this->startButton = new wxButton(this, wxID_ANY, wxString("Start ") + wxUniChar(0x0001F680), wxDefaultPosition, wxSize(100, 35));
+    this->startButton->SetBackgroundColour(wxColour(15, 150, 15, 255));
     this->startButton->SetFont(wxFontInfo(wxSize(0, 16)).Bold());
     this->sizer->Add(this->startButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
