@@ -15,17 +15,7 @@ void LearnFrame::CreateControls() {
 
     this->sizer->AddStretchSpacer();
 
-    wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
-    if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
-        wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
-        if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||
-            extension.IsSameAs("jpg", false) || extension.IsSameAs("jpeg", false)) {
-            wxBitmap tmpBitmap;
-            if (tmpBitmap.LoadFile(this->questions[currentQuestionIndex].getImagePath()) && tmpBitmap.IsOk()) {
-                originalBitmap = tmpBitmap;
-            }
-        }
-    }
+    wxBitmap originalBitmap = getQuestionImage(this->currentQuestionIndex_);
     if (originalBitmap.IsOk()) {
         this->questionImageBitmap = new wxStaticBitmap(this, wxID_ANY, scaleWxBitmap(originalBitmap, wxSize(500, 300)));
         this->sizer->Add(this->questionImageBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 10);
@@ -33,7 +23,7 @@ void LearnFrame::CreateControls() {
         this->questionImageBitmap->Hide();
     }
 
-    this->questionText = new wxStaticText(this, wxID_ANY, this->questions[currentQuestionIndex].getTerm());
+    this->questionText = new wxStaticText(this, wxID_ANY, this->questions[currentQuestionIndex_].getTerm());
     this->questionText->SetFont(questionFont);
     this->sizer->Add(this->questionText, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, 30);
 
@@ -60,12 +50,12 @@ void LearnFrame::CreateControls() {
 
 
 void LearnFrame::CheckUserAnswer() {
-    if (this->userAnswerInput->GetValue().ToStdString() == questions[currentQuestionIndex].getDefinition()) {
+    if (this->userAnswerInput->GetValue().ToStdString() == questions[currentQuestionIndex_].getDefinition()) {
         this->staticText->SetLabel("This is the correct answer! Good job!");
         this->staticText->SetForegroundColour(wxColour(100, 200, 0, 255));
         ++(this->acquiredResult);
     } else {
-        this->staticText->SetLabel("Incorrect! Should be: " + questions[currentQuestionIndex].getDefinition() + ".");
+        this->staticText->SetLabel("Incorrect! Should be: " + questions[currentQuestionIndex_].getDefinition() + ".");
         this->staticText->SetForegroundColour(wxColour(220, 0, 40, 255));
     }
     this->staticText->Show();
@@ -87,8 +77,8 @@ void LearnFrame::OnCheckAnswerButtonClicked([[maybe_unused]] wxCommandEvent &evt
 }
 
 void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &evt) {
-    ++(this->currentQuestionIndex);
-    if (this->currentQuestionIndex == this->questions.size()) {
+    ++(this->currentQuestionIndex_);
+    if (this->currentQuestionIndex_ == this->questions.size()) {
         auto* finishFrame = new FinishFrame(this->setTitle, this->acquiredResult, this->questions.size());
         finishFrame->SetClientSize(800, 600);
         finishFrame->Center();
@@ -102,18 +92,8 @@ void LearnFrame::OnNextQuestionButtonClicked([[maybe_unused]] wxCommandEvent &ev
         this->userAnswerInput->Clear();
         this->userAnswerInput->Enable(true);
         this->userAnswerInput->SetFocus();
-        this->questionText->SetLabel(this->questions[currentQuestionIndex].getTerm());
-        wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
-        if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
-            wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
-            if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||
-                extension.IsSameAs("jpg", false) || extension.IsSameAs("jpeg", false)) {
-                wxBitmap tmpBitmap;
-                if (tmpBitmap.LoadFile(this->questions[currentQuestionIndex].getImagePath()) && tmpBitmap.IsOk()) {
-                    originalBitmap = tmpBitmap;
-                }
-            }
-        }
+        this->questionText->SetLabel(this->questions[currentQuestionIndex_].getTerm());
+        wxBitmap originalBitmap = getQuestionImage(this->currentQuestionIndex_);
         if (originalBitmap.IsOk()) {
             this->questionImageBitmap->SetBitmap(scaleWxBitmap(originalBitmap, wxSize(500, 300)));
             this->questionImageBitmap->Show();
@@ -129,4 +109,20 @@ void LearnFrame::BindEventHandlers() {
     this->userAnswerInput->Bind(wxEVT_TEXT_ENTER, &LearnFrame::OnInputEnter, this);
     this->checkAnswerButton->Bind(wxEVT_BUTTON, &LearnFrame::OnCheckAnswerButtonClicked, this);
     this->nextQuestionButton->Bind(wxEVT_BUTTON, &LearnFrame::OnNextQuestionButtonClicked, this);
+}
+
+
+wxBitmap LearnFrame::getQuestionImage(size_t currentQuestionIndex) {
+    wxBitmap originalBitmap = (wxFileExists(this->defaultQuestionImagePath)) ? wxBitmap(defaultQuestionImagePath) : wxBitmap();
+    if (wxFileExists(this->questions[currentQuestionIndex].getImagePath())) {
+        wxString extension = wxFileName(this->questions[currentQuestionIndex].getImagePath()).GetExt();
+        if (extension.IsSameAs("bmp", false) || extension.IsSameAs("png", false) ||
+            extension.IsSameAs("jpg", false) || extension.IsSameAs("jpeg", false)) {
+            wxBitmap tmpBitmap;
+            if (tmpBitmap.LoadFile(this->questions[currentQuestionIndex].getImagePath()) && tmpBitmap.IsOk()) {
+                originalBitmap = tmpBitmap;
+            }
+        }
+    }
+    return originalBitmap;
 }

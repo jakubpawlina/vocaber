@@ -29,12 +29,14 @@ private:
     wxString dataFilePath{};
 
     std::vector <Question> questions;
-    size_t currentQuestionIndex = 0;
+    size_t currentQuestionIndex_ = 0;
 
     unsigned int acquiredResult = 0;
 
     void CreateControls();
     void BindEventHandlers();
+
+    wxBitmap getQuestionImage(size_t currentQuestionIndex);
 
     void OnInputEnter(wxCommandEvent &evt);
     void OnCheckAnswerButtonClicked(wxCommandEvent &evt);
